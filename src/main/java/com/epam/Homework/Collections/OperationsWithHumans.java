@@ -1,6 +1,11 @@
 package com.epam.Homework.Collections;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OperationsWithHumans {
 
@@ -41,8 +46,9 @@ public class OperationsWithHumans {
         System.out.println("Sorted by Age");
         System.out.println(list);
 
+        Comparator<Human> sortByAddress = Comparator.comparing(o1 -> o1.getAddress());
         System.out.println("Sorted by Address");
-        Collections.sort(list);
+        Collections.sort(list, sortByAddress);
         System.out.println(list);
 
     }
