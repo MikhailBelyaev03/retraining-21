@@ -1,8 +1,9 @@
 package com.epam.Homework.Collections;
 
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Address {
+public class Address implements Comparable<Address> {
 
     private String city;
 
@@ -75,4 +76,12 @@ public class Address {
                 '}';
     }
 
+    @Override
+    public int compareTo(Address o) {
+        return Comparator.comparing(Address::getCity)
+                .thenComparing(Address::getStreet)
+                .thenComparing(Address::getHouse)
+                .thenComparingInt(Address::getApartment)
+                .compare(this, o);
+    }
 }
