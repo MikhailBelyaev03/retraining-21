@@ -1,6 +1,8 @@
 package com.epam.Homework.Collections;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class SortedHashMapByValue {
 
@@ -14,18 +16,8 @@ public class SortedHashMapByValue {
         map.put(109, "e");
         map.put(455, "f");
         map.put(2, "f");
-
-        TreeSet<Map.Entry<Integer, String>> sortedSet = new TreeSet<Map.Entry<Integer, String>>(
-                new Comparator<Map.Entry<Integer, String>>() {
-                    @Override
-                    public int compare(Map.Entry<Integer, String> e1, Map.Entry<Integer, String> e2) {
-                        int res = e1.getValue().compareTo(e2.getValue());
-                        return res != 0 ? res : 1;
-                    }
-                }
-        );
-        sortedSet.addAll(map.entrySet());
-        System.out.println(sortedSet);
+        TreeSet<String> treeMap = new TreeSet<>(map.values());
+        System.out.println(treeMap);
     }
 }
 

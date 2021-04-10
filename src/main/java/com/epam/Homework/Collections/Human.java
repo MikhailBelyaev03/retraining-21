@@ -1,9 +1,8 @@
 package com.epam.Homework.Collections;
 
-import java.util.Comparator;
 import java.util.Objects;
 
-public class Human implements Comparable<Human> {
+public class Human {
 
     private String FullName;
 
@@ -61,14 +60,5 @@ public class Human implements Comparable<Human> {
                 ", age=" + age +
                 ", address=" + address +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Human o) {
-        return Comparator.comparing(Address::getCity)
-                .thenComparing(Address::getStreet)
-                .thenComparing(Address::getHouse)
-                .thenComparingInt(Address::getApartment)
-                .compare(this.getAddress(), o.getAddress());
     }
 }
