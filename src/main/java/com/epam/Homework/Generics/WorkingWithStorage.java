@@ -40,6 +40,7 @@ public class WorkingWithStorage {
 
         System.out.println("Last element of first storage : " + firstStorage.getLast());
         System.out.println("Last element from second storage" + secondStorage.getLast());
+
         firstStorage.get(1);
         firstStorage.get(10);
         firstStorage.get(1);

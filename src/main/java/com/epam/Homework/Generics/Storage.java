@@ -9,21 +9,20 @@ public class Storage<T> {
 
     private Cache<T> cache;
 
+    private int capacity;
+
     public Storage() {
         this.storage = (T[]) new Object[10];
         this.cache = new Cache<T>(10);
     }
 
     public Storage(T[] storage) {
-        int capacity = 10;
-        while (capacity < storage.length) {
-            capacity = (int) (capacity * 1.5);
+        this.capacity = 10;
+        while (this.capacity < storage.length) {
+            this.capacity = (int) (this.capacity * 1.5);
         }
-        this.storage = (T[]) new Object[capacity];
-        for (int i = 0; i < storage.length; i++) {
-            this.storage[i] = storage[i];
-        }
-        this.cache = new Cache<T>(10);
+        this.storage = storage;
+        this.cache = new Cache<T>(this.capacity);
     }
 
     public T[] getStorage() {
@@ -46,15 +45,11 @@ public class Storage<T> {
         if (storage[storage.length - 1] != null) {
             storage = Arrays.copyOf(storage, (int) (this.storage.length * 1.5));
         }
-        int lastIndex = -1;
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] == null) {
-                lastIndex = i;
+                storage[i] = element;
                 break;
             }
-        }
-        if (lastIndex != -1) {
-            storage[lastIndex] = element;
         }
     }
 
@@ -75,16 +70,12 @@ public class Storage<T> {
     }
 
     public T getLast() {
-        int lastIndex = -1;
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] == null) {
-                lastIndex = i - 1;
-                break;
+                return storage[i - 1];
             }
         }
-        if (lastIndex != -1) {
-            return storage[lastIndex];
-        } else return null;
+        return null;
     }
 
     public T get(int index) {
