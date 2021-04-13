@@ -16,11 +16,7 @@ public class SortedHashMapByKey {
         map.put(109, "e");
         map.put(455, "f");
         map.put(2, "f");
-
-        Map<Integer, String> duplicateMap = new TreeMap<>();
-        for (Map.Entry<Integer, String> l : map.entrySet()) {
-            duplicateMap.put(l.getKey(), l.getValue());
-        }
-        System.out.println(duplicateMap);
+        
+        System.out.println(new TreeMap<>(map));
     }
 }
