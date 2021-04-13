@@ -36,45 +36,49 @@ public class OperationsWithHumans {
         findDuplicates(list);
         deleteDuplicates(list);
 
-        Comparator<Human> sortByName = Comparator.comparing(o1 -> o1.getFullName());
-        Collections.sort(list, sortByName);
+        Comparator<Human> sortByName = Comparator.comparing(Human::getFullName);
+        list.sort(sortByName);
         System.out.println("Sorted by Name");
         System.out.println(list);
 
-        Comparator<Human> sortByAge = Comparator.comparing(o1 -> o1.getAge());
-        Collections.sort(list, sortByAge);
+        Comparator<Human> sortByAge = Comparator.comparing(Human::getAge);
+        list.sort(sortByAge);
         System.out.println("Sorted by Age");
         System.out.println(list);
 
-        Comparator<Human> sortByAddress = Comparator.comparing(o1 -> o1.getAddress());
+        Comparator<Human> sortByAddress = Comparator.comparing(Human::getAddress);
         System.out.println("Sorted by Address");
-        Collections.sort(list, sortByAddress);
+        list.sort(sortByAddress);
         System.out.println(list);
 
     }
 
     public static void findDuplicates(List<Human> list) {
-        Map<Human, Integer> duplicatesOfHuman = new HashMap<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (duplicatesOfHuman.containsKey(list.get(i))) {
-                int value = duplicatesOfHuman.get(list.get(i));
-                duplicatesOfHuman.put(list.get(i), value + 1);
-            } else
-                duplicatesOfHuman.put(list.get(i), 1);
-        }
+        Map<Human, Integer> duplicatesOfHuman = getDuplicatesList(list);
         for (Map.Entry<Human, Integer> currentHuman : duplicatesOfHuman.entrySet()) {
             if (currentHuman.getValue() > 1) {
-                System.out.println(String.format("Find duplicates of Human - %s \n", currentHuman.getKey()));
+                System.out.format("Find duplicates of Human - %s \n", currentHuman.getKey());
             }
         }
     }
 
+    public static Map<Human, Integer> getDuplicatesList(List<Human> list) {
+        Map<Human, Integer> duplicatesOfHuman = new HashMap<>();
+        for (Human human : list) {
+            if (duplicatesOfHuman.containsKey(human)) {
+                int value = duplicatesOfHuman.get(human);
+                duplicatesOfHuman.put(human, value + 1);
+            } else
+                duplicatesOfHuman.put(human, 1);
+        }
+        return duplicatesOfHuman;
+    }
+
     public static void deleteDuplicates(List<Human> list) {
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = i; j < list.size(); j++) {
-                if ((list.get(i).equals(list.get(j))) && (i != j)) {
-                    list.remove(j);
-                }
+        Map<Human, Integer> duplicatesOfHuman = getDuplicatesList(list);
+        for (Map.Entry<Human, Integer> currentHuman : duplicatesOfHuman.entrySet()) {
+            if (currentHuman.getValue() > 1) {
+                list.remove(currentHuman.getKey());
             }
         }
     }
