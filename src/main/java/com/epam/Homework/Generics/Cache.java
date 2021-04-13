@@ -32,74 +32,62 @@ public class Cache<T> {
 
     public void add(T element, int index) {
         CacheElement<T> newCacheElement = new CacheElement<>(element, index);
-        int indexForAdd = -1;
-        for (int i = cache.length - 1; i > 0; i--) {
-            if ((cache[i] == null) && (cache[i - 1] != null)) {
-                indexForAdd = i;
+        boolean marker = false;
+        for (int i = 0; i < cache.length; i++) {
+            if (cache[i] == null) {
+                cache[i] = newCacheElement;
+                marker = true;
+                break;
             }
         }
-        if (indexForAdd == -1) {
-            indexForAdd = cache.length - 1;
+        if (marker == false) {
+            shiftElements(0, cache);
+            cache[cache.length - 1] = newCacheElement;
         }
-        if ((indexForAdd >= cache.length - 1) && (cache[cache.length - 1] != null)) {
-            for (int i = 0; i < indexForAdd; i++) {
+    }
+
+    private static <T> void shiftElements(int startWith, CacheElement<T>[] cache) {
+        for (int i = startWith; i < cache.length; i++) {
+            if (cache.length - 1 == i) break;
+            if (cache[i + 1] == null) {
+                cache[i] = null;
+                break;
+            } else
                 cache[i] = cache[i + 1];
-            }
         }
-        cache[indexForAdd] = newCacheElement;
-
-// }
-
     }
 
     public void delete(T element) {
-        int lastIndex = -1;
-        for (int i = 0; i < cache.length - 1; i++) {
-            if (cache[i].getElement().equals(element)) {
-                for (int j = i; j <= cache.length - 2; j++) {
-                    if (cache[j] == null) {
-                        lastIndex = j;
-                    }
-                    cache[j] = cache[j + 1];
+        for (int i = 0; i < cache.length; i++) {
+            if (cache[i] != null) {
+                if (cache[i].getElement().equals(element)) {
+                    cache[i] = null;
+                    shiftElements(i, cache);
                 }
             }
-        }
-        if (lastIndex != -1) {
-            cache[lastIndex] = null;
-        } else {
-            cache[cache.length - 1] = null;
         }
     }
 
     public boolean isPresent(T element) {
-        boolean marker = false;
         for (int i = 0; i < cache.length; i++) {
-            if (cache[i] != null) {
-                if (cache[i].getElement().equals(element)) {
-                    marker = true;
-                    break;
-                }
-            }
+            if ((cache[i] != null) && (cache[i].getElement().equals(element)))
+                return true;
         }
-        return marker;
+        return false;
     }
 
     public boolean isPresent(int index) {
-        boolean marker = false;
         for (int i = 0; i < cache.length; i++) {
-            if (cache[i] != null) {
-                if (cache[i].getIndex() == index) {
-                    marker = true;
-                    break;
-                }
+            if ((cache[i] != null) && ((cache[i].getIndex() == index))) {
+                return true;
             }
         }
-        return marker;
+        return false;
     }
 
     public CacheElement<T> get(int index) {
         CacheElement<T> currentElement = null;
-        int lastIndex = -1;
+        int lastIndex = cache.length;
         int currentIndex = -1;
         for (int i = 0; i < cache.length; i++) {
             if (cache[i] != null) {
@@ -109,25 +97,23 @@ public class Cache<T> {
                 }
             }
         }
-        if (currentElement != null) {
-            if (currentIndex != cache.length - 1) {
-                for (int i = currentIndex; i < cache.length - 1; i++) {
-                    cache[i] = cache[i + 1];
-                }
-                for (int i = cache.length - 1; i >= 0; i--) {
-                    if (cache[i] == null) {
-                        lastIndex = i;
-                    }
-                }
-
-            } else lastIndex = currentIndex;
-            cache[lastIndex] = currentElement;
+        for (int i = cache.length - 1; i >= 0; i--) {
+            if (cache[i] == null) {
+                lastIndex = i;
+            }
         }
-        return currentElement;
+        if (currentIndex == -1)
+            return null;
+        else {
+            if (lastIndex != currentIndex) {
+                shiftElements(currentIndex, cache);
+            }
+            cache[lastIndex - 1] = currentElement;
+            return currentElement;
+        }
     }
 
     public void clear() {
-        boolean marker = false;
         for (int i = 0; i < cache.length; i++) {
             cache[i] = null;
         }
