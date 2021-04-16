@@ -54,7 +54,7 @@ public class Storage<T> {
 
     public T getLast() {
         for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
+            if (storage[i] == null && i > 0) {
                 return storage[i - 1];
             }
         }
@@ -65,10 +65,8 @@ public class Storage<T> {
         if (cache.isPresent(index)) {
             return cache.get(index).getElement();
         } else {
-            if (cache.getCapacity() > index) {
-                cache.add(storage[index], index);
-                return storage[index];
-            } else return null;
+            cache.add(storage[index], index);
+            return storage[index];
         }
     }
 

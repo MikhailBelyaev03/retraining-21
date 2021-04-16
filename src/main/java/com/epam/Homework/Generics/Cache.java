@@ -19,7 +19,6 @@ public class Cache<T> {
 
     public void add(T element, int index) {
         CacheElement<T> newCacheElement = new CacheElement<>(element, index);
-        boolean marker = false;
         for (int i = 0; i < cache.length; i++) {
             if (cache[i] == null) {
                 cache[i] = newCacheElement;
@@ -32,9 +31,9 @@ public class Cache<T> {
 
     public void delete(T element) {
         for (int i = 0; i < cache.length; i++) {
-            if ((cache[i] != null) && (cache[i].getElement().equals(element))) {
-                cache[i] = null;
+            if (cache[i] != null && cache[i].getElement().equals(element)) {
                 shiftElements(i, cache);
+                cache[cache.length - 1] = null;
             }
         }
     }
@@ -50,7 +49,7 @@ public class Cache<T> {
 
     public boolean isPresent(int index) {
         for (CacheElement<T> CacheElement : cache) {
-            if ((CacheElement != null) && ((CacheElement.getIndex() == index))) {
+            if (CacheElement != null && CacheElement.getIndex() == index) {
                 return true;
             }
         }
@@ -58,6 +57,7 @@ public class Cache<T> {
     }
 
     public CacheElement<T> get(int index) {
+        CacheElement<T> tempElement;
         int lastIndex = cache.length;
         for (int i = cache.length - 1; i >= 0; i--) {
             if (cache[i] == null) {
@@ -73,7 +73,7 @@ public class Cache<T> {
                         shiftElements(i, cache);
                     }
                     cache[lastIndex - 1] = currentElement;
-                    return cache[i];
+                    return currentElement;
 
                 }
             }
@@ -86,13 +86,15 @@ public class Cache<T> {
     }
 
     private <T> void shiftElements(int startWith, CacheElement<T>[] cache) {
+
         for (int i = startWith; i < cache.length; i++) {
             if (cache.length - 1 == i) break;
             if (cache[i + 1] == null) {
                 cache[i] = null;
                 break;
-            } else
+            } else {
                 cache[i] = cache[i + 1];
+            }
         }
     }
 

@@ -9,32 +9,33 @@ public class WorkWithCache {
         cache.add("Marysya", 4752);
         cache.add("Stepan", 7745);
         cache.add("Lera", 6354);
-        System.out.println("Cache is:  - " + cache);
+        System.out.format("Cache is:  - %s \n", cache);
 
         cache.delete("Lera");
-        System.out.println("Delete Lera from cache:  -" + cache);
+        System.out.format("Delete Lera from cache:  - %s \n", cache);
 
         cache.delete("Stepan");
-        System.out.println("Delete Stepan from cache:  " + cache);
+        System.out.format("Delete Stepan from cache:  %s \n", cache);
 
-        System.out.println("Is Masha present in cashe: " + cache.isPresent("Masha"));
-        System.out.println("Is Lera present in cashe:  " + cache.isPresent("Lera"));
-        System.out.println("Is 2225 present in cashe:  " + cache.isPresent(2225));
-        System.out.println("Is 2235 present in cashe::  " + cache.isPresent(2235));
+        System.out.format("Is Masha present in cashe: %s \n", cache.isPresent("Masha"));
+        System.out.format("Is Lera present in cashe:  %s \n", cache.isPresent("Lera"));
+        System.out.format("Is 2225 present in cashe:  %s \n", cache.isPresent(2225));
+        System.out.format("Is 2235 present in cashe:  %s \n", cache.isPresent(2235));
 
         cache.get(4752);
-        System.out.println("Get Marysya from cache: " + cache);
+        System.out.format("Get Marysya from cache: %s \n", cache);
 
         cache.get(2225);
-        System.out.println("Get Victor from cache:  " + cache);
+        System.out.format("Get Victor from cache:  %s \n", cache);
 
         cache.add("Vera", 4756);
         cache.add("Marat", 7897);
-        System.out.println("Add Vera and Marat to cache: " + cache);
+        System.out.format("Add Vera and Marat to cache: %s \n", cache);
         cache.add("Alexandr", 7897);
-        System.out.println("Add Alexandr to cache: " + cache);
+        System.out.format("Add Alexandr to cache: %s \n", cache);
 
         cache.clear();
-        System.out.println("Clear all cache: " + cache);
+        System.out.format("Clear all cache: %s \n", cache);
+        System.out.format("Is 2225 present in cashe:  %s \n", cache.isPresent(7897));
     }
 }

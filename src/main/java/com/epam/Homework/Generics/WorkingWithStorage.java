@@ -2,7 +2,7 @@ package com.epam.Homework.Generics;
 
 public class WorkingWithStorage {
     public static void main(String[] args) {
-        Storage<String> firstStorage = new Storage<>();
+        Storage<String> firstStorage = new Storage<String>();
         String[] arrayForStorage = new String[16];
         arrayForStorage[0] = "one";
         arrayForStorage[1] = "two";
@@ -20,8 +20,8 @@ public class WorkingWithStorage {
         arrayForStorage[13] = "fourteen";
         arrayForStorage[14] = "fifteen";
         arrayForStorage[15] = "sixteen";
-        Storage<String> secondStorage = new Storage<>(arrayForStorage);
-        System.out.println("Second storage is: " + secondStorage);
+        Storage<String> secondStorage = new Storage<String>(arrayForStorage);
+        System.out.format("Second storage is: %s \n", secondStorage);
 
         firstStorage.add("Hola!1");
         firstStorage.add("Hola!2");
@@ -36,14 +36,14 @@ public class WorkingWithStorage {
         firstStorage.add("Hola!11");
         firstStorage.add("Hola!12");
         firstStorage.add("Hola!13");
-        System.out.println("First storage is: " + firstStorage);
+        System.out.format("First storage is: %s \n", firstStorage);
 
-        System.out.println("Last element of first storage : " + firstStorage.getLast());
-        System.out.println("Last element from second storage" + secondStorage.getLast());
+        System.out.format("Last element of first storage : %s \n", firstStorage.getLast());
+        System.out.format("Last element from second storage : %s \n", secondStorage.getLast());
 
         firstStorage.get(1);
         firstStorage.get(10);
         firstStorage.get(1);
-        System.out.println("First storage after getting 1 element : " + firstStorage);
+        System.out.format("First storage after getting 1 element : %s \n", firstStorage);
     }
 }
