@@ -1,0 +1,34 @@
+name: Java CI/CD build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+      branches:
+      - '*'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 11 ]
+    name: Java ${{ matrix.java }} compile
+    steps:
+      - uses: actions/checkout@master
+      - name: Clean and compile
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - run: gradle clean compileJava
+  build:
+    runs-on: ubuntu-latest
+    name: Java ${{ matrix.java }} test
+    steps:
+      - uses: actions/checkout@v1
+      - name: Test
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - run: gradle clean build
