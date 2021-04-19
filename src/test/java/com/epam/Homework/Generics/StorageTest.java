@@ -7,8 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
@@ -17,21 +16,40 @@ public class StorageTest {
     private String expectedString;
 
     @Mock
-    Cache cache = new Cache(5);
+    Cache<String> cache = new Cache<>(5);
 
     @InjectMocks
-    private Storage<String> storage = new Storage<String>();
+    private Storage<String> storage = new Storage<>();
 
     @Test
-    public void AddOneElementToStorage() {
-        expectedString = new String("Misha");
+    public void createNewStorageTest() {
+        String[] arrayForFillStorage = new String[11];
+        arrayForFillStorage[0] = "1";
+        arrayForFillStorage[1] = "1";
+        arrayForFillStorage[2] = "1";
+        arrayForFillStorage[3] = "1";
+        arrayForFillStorage[4] = "1";
+        arrayForFillStorage[5] = "1";
+        arrayForFillStorage[6] = "1";
+        arrayForFillStorage[7] = "1";
+        arrayForFillStorage[8] = "1";
+        arrayForFillStorage[9] = "1";
+        arrayForFillStorage[10] = "12";
+
+        Storage<String> storage = new Storage<>(arrayForFillStorage);
+        assertNull(storage.getLast());
+    }
+
+    @Test
+    public void addOneElementToStorageTest() {
+        expectedString = "Misha";
         storage.add("Misha");
 
         assertEquals(expectedString, storage.getLast());
     }
 
     @Test
-    public void AddMoreThenCapacityElementsToStorage() {
+    public void addMoreThenCapacityElementsToStorageTest() {
         storage.add("Misha1");
         storage.add("Misha2");
         storage.add("Misha3");
@@ -45,11 +63,11 @@ public class StorageTest {
         storage.add("Misha11");
         storage.add("Misha12");
 
-        Assert.assertNull(storage.get(14));
+        assertNull(storage.get(14));
     }
 
     @Test
-    public void deleteElementIsNotPresentedInCache() {
+    public void deleteElementIsNotPresentedInCacheTest() {
         storage.add("Misha1");
         storage.add("Misha2");
         when(cache.isPresent("Misha")).thenReturn(false);
@@ -59,7 +77,7 @@ public class StorageTest {
     }
 
     @Test
-    public void deleteElementIsPresentedInCache() {
+    public void deleteElementIsPresentedInCacheTest() {
         storage.add("Misha1");
         storage.add("Misha2");
         when(cache.isPresent("Misha")).thenReturn(true);
@@ -68,7 +86,7 @@ public class StorageTest {
     }
 
     @Test
-    public void deleteElementPresentedInStorage() {
+    public void deleteElementPresentedInStorageTest() {
         storage.add("Misha1");
         storage.add("Misha2");
         storage.delete("Misha2");
@@ -76,7 +94,7 @@ public class StorageTest {
     }
 
     @Test
-    public void getElementIsNotPresentedInCache() {
+    public void getElementIsNotPresentedInCacheTest() {
         expectedString = "Masha";
         storage.add("Masha");
         when(cache.isPresent(0)).thenReturn(false);
@@ -85,31 +103,35 @@ public class StorageTest {
     }
 
     @Test
-    public void getElementIsPresentedInCache() {
+    public void getElementIsPresentedInCacheTest() {
         expectedString = "Masha";
         storage.add("Masha");
         when(cache.isPresent(0)).thenReturn(true);
-        when(cache.get(0)).thenReturn(new CacheElement("Masha", 0));
+        when(cache.get(0)).thenReturn(new CacheElement<>("Masha", 0));
         assertEquals(expectedString, storage.get(0));
     }
 
     @Test
-    public void getLastElementFromStorage() {
-        expectedString = new String("Misha");
+    public void getLastElementFromStorageTest() {
+        expectedString = "Misha";
         storage.add("Masha");
         storage.add("Misha");
-
         assertEquals(expectedString, storage.getLast());
     }
 
     @Test
-    public void getLastElementFromEmptyStorage() {
+    public void getLastElementFromEmptyStorageTest() {
         Assert.assertNull(storage.getLast());
     }
 
     @Test
-    public void ClearAllCacheTest() {
+    public void clearAllCacheTest() {
         storage.clear();
         verify(cache).clear();
+    }
+
+    @Test
+    public void toStringTest() {
+        assertEquals("Storage{storage=[null, null, null, null, null, null, null, null, null, null], cache=cache}", storage.toString());
     }
 }

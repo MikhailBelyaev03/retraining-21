@@ -1,30 +1,30 @@
 package com.epam.Homework.Generics;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-public class CacheTest {
-    private Cache<String> expectedCache = new Cache<String>(5);
+import static org.junit.Assert.*;
 
-    private static CacheElement expectedCacheElement;
+public class CacheTest {
 
     private Cache<String> actualCache = new Cache<>(5);
 
+    private static CacheElement<String> expectedCacheElement;
+
     @Test
-    public void AddOneElementToCache() {
-        expectedCacheElement = new CacheElement("Misha", 4782);
+    public void addOneElementToCacheTest() {
+        expectedCacheElement = new CacheElement<>("Misha", 4782);
         actualCache.add("Misha", 4782);
         actualCache.add("Victor", 2225);
         actualCache.add("Marysya", 4752);
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
 
-        Assert.assertEquals(expectedCacheElement, actualCache.get(4782));
+        assertEquals(expectedCacheElement, actualCache.get(4782));
     }
 
     @Test
-    public void AddMoreThenCapacityElements() {
-        expectedCacheElement = new CacheElement("Masha", 4456);
+    public void addMoreThenCapacityElementsTest() {
+        expectedCacheElement = new CacheElement<>("Masha", 4456);
 
         actualCache.add("Masha", 4456);
         actualCache.add("Misha", 4782);
@@ -33,12 +33,12 @@ public class CacheTest {
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
 
-        Assert.assertNotEquals(expectedCacheElement, actualCache.get(4782));
+        assertNotEquals(expectedCacheElement, actualCache.get(4782));
     }
 
     @Test
-    public void DeleteOneElementFromCache() {
-        expectedCacheElement = new CacheElement("Misha", 4782);
+    public void deleteOneElementFromCacheTest() {
+        expectedCacheElement = new CacheElement<>("Misha", 4782);
 
         actualCache.add("Misha", 4782);
         actualCache.add("Victor", 2225);
@@ -47,43 +47,43 @@ public class CacheTest {
         actualCache.add("Lera", 6354);
         actualCache.delete("Marysya");
 
-        Assert.assertNull(actualCache.get(4752));
+        assertNull(actualCache.get(4752));
     }
 
     @Test
-    public void ElementPresentByElementInCache() {
+    public void elementPresentByElementInCacheTest() {
         Cache<String> actualCache = new Cache<>(5);
         actualCache.add("Lera", 6354);
 
-        Assert.assertTrue(actualCache.isPresent("Lera"));
+        assertTrue(actualCache.isPresent("Lera"));
     }
 
     @Test
-    public void ElementNotPresentByElementInCache() {
+    public void elementNotPresentByElementInCacheTest() {
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
 
-        Assert.assertFalse(actualCache.isPresent("Yura"));
+        assertFalse(actualCache.isPresent("Yura"));
     }
 
     @Test
-    public void ElementPresentByIndexInCache() {
+    public void elementPresentByIndexInCacheTest() {
         actualCache.add("Lera", 6354);
 
-        Assert.assertTrue(actualCache.isPresent(6354));
+        assertTrue(actualCache.isPresent(6354));
     }
 
     @Test
-    public void ElementNotPresentByIndexInCache() {
+    public void elementNotPresentByIndexInCacheTest() {
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
 
-        Assert.assertFalse(actualCache.isPresent(6666));
+        assertFalse(actualCache.isPresent(6666));
     }
 
     @Test
-    public void getPresentElementFromCache() {
-        expectedCacheElement = new CacheElement("Misha", 4782);
+    public void getPresentElementFromCacheTest() {
+        expectedCacheElement = new CacheElement<>("Misha", 4782);
         actualCache.add("Misha", 4782);
         actualCache.add("Victor", 2225);
         actualCache.add("Marysya", 4752);
@@ -92,29 +92,39 @@ public class CacheTest {
 
         actualCache.get(4752);
 
-        Assert.assertEquals(expectedCacheElement, actualCache.get(4782));
+        assertEquals(expectedCacheElement, actualCache.get(4782));
     }
 
     @Test
-    public void getNotPresentElementFromCache() {
-        expectedCacheElement = new CacheElement("Vasya", 1111);
+    public void getNotPresentElementFromCacheTest() {
+        expectedCacheElement = new CacheElement<>("Vasya", 1111);
         actualCache.add("Misha", 4782);
         actualCache.add("Victor", 2225);
         actualCache.add("Marysya", 4752);
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
 
-        Assert.assertNull(actualCache.get(1111));
+        assertNull(actualCache.get(1111));
     }
 
 
     @Test
-    public void ClearAllCache() {
+    public void clearAllCacheTest() {
         actualCache.add("Stepan", 7745);
         actualCache.add("Lera", 6354);
         actualCache.clear();
 
-        Assert.assertFalse(actualCache.isPresent(7745));
-        Assert.assertFalse(actualCache.isPresent(6354));
+        assertFalse(actualCache.isPresent(7745));
+        assertFalse(actualCache.isPresent(6354));
+    }
+
+    @Test
+    public void getCapacityTest() {
+        assertEquals(5, actualCache.getCapacity());
+    }
+
+    @Test
+    public void toStringTest() {
+        assertEquals("Cache{cache=[null, null, null, null, null], capacity=5}", actualCache.toString());
     }
 }

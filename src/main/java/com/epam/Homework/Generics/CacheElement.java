@@ -17,16 +17,8 @@ public class CacheElement<T> {
         return element;
     }
 
-    public void setElement(T element) {
-        this.element = element;
-    }
-
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     @Override
