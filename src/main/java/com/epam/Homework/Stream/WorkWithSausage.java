@@ -1,23 +1,37 @@
 package com.epam.Homework.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 public class WorkWithSausage {
-    public static void main(String[] args) throws IOException {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            WorkWithSausage.class);
+
+    private static final String PATH_NAME = "src/main/java/com/epam/Homework/Stream/File.txt";
+
+    public static void main(String[] args) {
+        createSausages();
+    }
+
+    public static void createSausages() {
         try {
-            Files.readAllLines(Paths.get("src/main/java/com/epam/Homework/Stream/File.txt")).stream()
-                    .map(decodedString -> new String(Base64.getMimeDecoder().decode(decodedString)))
-                    .map(splittedString -> splittedString.split(","))
-                    .map(stringForSub -> new String[]{stringForSub[0].substring(stringForSub[0].indexOf("'")+1, stringForSub[0].lastIndexOf("'")),
-                            stringForSub[1].substring(stringForSub[1].indexOf("=") + 1, stringForSub[1].length()),
-                            stringForSub[2].substring(stringForSub[2].indexOf("=") + 1, stringForSub[2].length())})
-                    .map(sausageObj -> new Sausage(sausageObj[0], Integer.parseInt(sausageObj[1]), Long.parseLong(sausageObj[2])))
+            Files.readAllLines(Paths.get(PATH_NAME)).stream()
+                    .map(Base64.getMimeDecoder()::decode)
+                    .map(String::new)
+                    .map(line -> Arrays.stream(line.split(","))
+                            .map(elem -> elem.split("=")[1]).collect(Collectors.toList()))
+                    .map(Sausage::new)
                     .forEach(System.out::println);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to read file {}.", PATH_NAME);
         }
     }
 

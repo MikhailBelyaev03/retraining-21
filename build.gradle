@@ -16,6 +16,11 @@ compileJava.options.encoding = 'UTF-8'
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+
+    implementation group: 'com.guicedee.services', name: 'sl4j', version: '1.0.13.5'
+
+    implementation group: 'ch.qos.logback', name: 'logback', version: '0.5', ext: 'pom'
+
 }
 
 test {

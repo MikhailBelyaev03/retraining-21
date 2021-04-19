@@ -1,5 +1,6 @@
 package com.epam.Homework.Stream;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Sausage {
@@ -14,6 +15,12 @@ public class Sausage {
         this.type = type;
         this.weight = weight;
         this.cost = cost;
+    }
+
+    public Sausage(List<String> list) {
+        this.type = (list.get(0)).replace("'","");
+        this.weight = Integer.parseInt(list.get(1));
+        this.cost = Integer.parseInt(list.get(2));
     }
 
     public String getType() {

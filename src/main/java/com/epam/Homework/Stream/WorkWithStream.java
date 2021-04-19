@@ -1,5 +1,8 @@
 package com.epam.Homework.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,49 +14,68 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
+import static java.util.stream.Stream.generate;
 
 public class WorkWithStream {
-    public static void main(String[] args) throws IOException {
-        List<String> arrayOfUIID = Stream.generate(() -> UUID.randomUUID().toString()).limit(10000).collect(Collectors.toList());
-        Path path = Paths.get("src/main/java/com/epam/Homework/Stream/out.txt");
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            WorkWithStream.class);
+
+    private static final String PATH_NAME = "src/main/java/com/epam/Homework/Stream/out.txt";
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
+
+    public static void main(String[] args) {
+        List<String> arrayOfUIID = getListOfUUID();
+
+        Path path = Optional.of(Paths.get(PATH_NAME)).orElse(Paths.get(System.getProperty("user.dir")));
         try {
             Files.write(path, arrayOfUIID, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to read file {}.", path);
         }
 
-        Function<char[], Integer> charToInt = new Function<char[], Integer>() {
-            @Override
-            public Integer apply(char[] chars) {
-                return IntStream.range(0, chars.length)
-                        .mapToObj(i -> chars[i])
-                        .map(o -> Character.getNumericValue(o))
-                        .reduce((left, right) -> left + right)
-                        .get();
-            }
-        };
-        Long count100Number = Files.readAllLines(Paths.get("src/main/java/com/epam/Homework/Stream/out.txt"))
-                .stream()
-                .map(o -> o.replaceAll("[^0-9 ]", ""))
-                .map(o -> o.toCharArray())
-                .map(o -> charToInt.apply(o))
-                .filter(o -> o > 100)
-                .count();
+        Long count100Number = getCountOfNumbersUUID();
+        getTheEndOfTheWorldDate(count100Number);
 
+    }
+
+    public static List<String> getListOfUUID() {
+        return generate(UUID::randomUUID)
+                .map(Objects::toString)
+                .limit(10000)
+                .collect(Collectors.toList());
+    }
+
+    public static Long getCountOfNumbersUUID() {
+        try {
+            return Files.lines(Paths.get(PATH_NAME))
+                    .filter(Objects::nonNull)
+                    .map(x -> x.replaceAll("\\D", ""))
+                    .map(x -> x.chars().map(Character::getNumericValue).sum())
+                    .filter(sum -> sum > 100)
+                    .count();
+        } catch (IOException e) {
+            LOGGER.error("Failed to read file {}.", PATH_NAME);
+        }
+        return null;
+    }
+
+    public static void getTheEndOfTheWorldDate(Long count100Number) {
         NumberFormat numFormat = NumberFormat.getInstance();
         numFormat.setMinimumIntegerDigits(4);
         numFormat.setGroupingUsed(false);
         String stringForDate = numFormat.format(count100Number);
         ZoneId zoneId = ZoneId.of("America/Los_Angeles");
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-        ZonedDateTime dateOfEnd = ZonedDateTime.of(LocalDateTime.now().plusMonths(Integer.parseInt(stringForDate.substring(0, 2))).plusDays(Integer.parseInt(stringForDate.substring(2, 4))), zoneId);
-        System.out.println(formatter.format(dateOfEnd));
-
+        String monthOfTheEndOfTheWorld = stringForDate.substring(0, 2);
+        String yearOfTheEndOfTheWorld = stringForDate.substring(2, 4);
+        ZonedDateTime dateOfEnd = ZonedDateTime.of(LocalDateTime.now().plusMonths(Integer.parseInt(monthOfTheEndOfTheWorld)).plusDays(Integer.parseInt(yearOfTheEndOfTheWorld)), zoneId);
+        LOGGER.info(FORMATTER.format(dateOfEnd));
     }
 }
 
