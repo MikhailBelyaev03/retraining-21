@@ -1,5 +1,6 @@
 package com.epam.Homework.Collections;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,15 @@ public class OperationsWithHumans {
     public static void main(String[] args) {
     }
 
-    public static void findDuplicates(List<Human> list) {
+    public static List<Human> findDuplicates(List<Human> list) {
         Map<Human, Integer> duplicatesOfHuman = getDuplicatesList(list);
+        List<Human> doublesOfHuman = new ArrayList<>();
         for (Map.Entry<Human, Integer> currentHuman : duplicatesOfHuman.entrySet()) {
             if (currentHuman.getValue() > 1) {
-                System.out.format("Find duplicates of Human - %s \n", currentHuman.getKey());
+                doublesOfHuman.add(currentHuman.getKey());
             }
         }
+        return doublesOfHuman;
     }
 
     public static Map<Human, Integer> getDuplicatesList(List<Human> list) {

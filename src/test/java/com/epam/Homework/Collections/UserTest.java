@@ -21,33 +21,33 @@ public class UserTest {
 
 
     @Test
-    public void setFullNameTest() {
+    public void setFullName() {
 
         user1.setFullName("test2");
         assertEquals("test2", user1.getFullName());
     }
 
     @Test
-    public void setRoleTest() {
+    public void setRole() {
         user1.setRole(Role.ADMIN);
         assertEquals(Role.ADMIN, user1.getRole());
     }
 
     @Test
-    public void equalsTest() {
+    public void equals() {
         user2 = new User("test1", Role.USER);
         assertEquals(user1, user2);
     }
 
     @Test
-    public void dontEqualsTest() {
+    public void dontEquals() {
         user2 = new User("test2", Role.USER);
 
         assertNotEquals(user1, user2);
     }
 
     @Test
-    public void hashCodeEqualsTest() {
+    public void hashCodeEquals() {
         user2 = new User("test1", Role.USER);
         assertEquals(user1.hashCode(), user2.hashCode());
     }

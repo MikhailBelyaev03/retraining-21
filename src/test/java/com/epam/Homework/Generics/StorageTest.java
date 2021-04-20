@@ -7,8 +7,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StorageTest {
@@ -22,7 +26,7 @@ public class StorageTest {
     private Storage<String> storage = new Storage<>();
 
     @Test
-    public void createNewStorageTest() {
+    public void storageWhenCreateObjectThenUseTheArray() {
         String[] arrayForFillStorage = new String[11];
         arrayForFillStorage[0] = "1";
         arrayForFillStorage[1] = "1";
@@ -41,7 +45,7 @@ public class StorageTest {
     }
 
     @Test
-    public void addOneElementToStorageTest() {
+    public void addWhenAddElementThenLastElementIsChange() {
         expectedString = "Misha";
         storage.add("Misha");
 
@@ -49,7 +53,7 @@ public class StorageTest {
     }
 
     @Test
-    public void addMoreThenCapacityElementsToStorageTest() {
+    public void addWhenAddMoreThenCapacityElementsThenChangeCapacity() {
         storage.add("Misha1");
         storage.add("Misha2");
         storage.add("Misha3");
@@ -67,7 +71,7 @@ public class StorageTest {
     }
 
     @Test
-    public void deleteElementIsNotPresentedInCacheTest() {
+    public void deleteWhenElementIsNotPresentedInCacheThenDeleteFromStorage() {
         storage.add("Misha1");
         storage.add("Misha2");
         when(cache.isPresent("Misha")).thenReturn(false);
@@ -77,7 +81,7 @@ public class StorageTest {
     }
 
     @Test
-    public void deleteElementIsPresentedInCacheTest() {
+    public void deleteWhenElementPresentedInCacheThenDeleteFromCacheAndStorage() {
         storage.add("Misha1");
         storage.add("Misha2");
         when(cache.isPresent("Misha")).thenReturn(true);
@@ -86,7 +90,7 @@ public class StorageTest {
     }
 
     @Test
-    public void deleteElementPresentedInStorageTest() {
+    public void deleteWhenElementIsNotNullThenPositive() {
         storage.add("Misha1");
         storage.add("Misha2");
         storage.delete("Misha2");
@@ -94,7 +98,7 @@ public class StorageTest {
     }
 
     @Test
-    public void getElementIsNotPresentedInCacheTest() {
+    public void getWhenElementIsNotPresentedInCacheThenDoNothing() {
         expectedString = "Masha";
         storage.add("Masha");
         when(cache.isPresent(0)).thenReturn(false);
@@ -103,7 +107,7 @@ public class StorageTest {
     }
 
     @Test
-    public void getElementIsPresentedInCacheTest() {
+    public void getWhenElementIsPresentedInCacheThenReturnElement() {
         expectedString = "Masha";
         storage.add("Masha");
         when(cache.isPresent(0)).thenReturn(true);
@@ -112,7 +116,7 @@ public class StorageTest {
     }
 
     @Test
-    public void getLastElementFromStorageTest() {
+    public void getWhenLastElementIsPresentThenReturnElement() {
         expectedString = "Misha";
         storage.add("Masha");
         storage.add("Misha");
@@ -120,12 +124,12 @@ public class StorageTest {
     }
 
     @Test
-    public void getLastElementFromEmptyStorageTest() {
+    public void getWhenEmptyStorageThenReturnNull() {
         Assert.assertNull(storage.getLast());
     }
 
     @Test
-    public void clearAllCacheTest() {
+    public void clearWhenStorageClearThenClearCache() {
         storage.clear();
         verify(cache).clear();
     }

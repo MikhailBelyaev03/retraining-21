@@ -18,15 +18,15 @@ public class Cache<T> {
     }
 
     public void add(T element, int index) {
-        CacheElement<T> newCacheElement = new CacheElement<>(element, index);
+        CacheElement<T> cacheElement = new CacheElement<>(element, index);
         for (int i = 0; i < cache.length; i++) {
             if (cache[i] == null) {
-                cache[i] = newCacheElement;
+                cache[i] = cacheElement;
                 return;
             }
         }
         shiftElements(0, cache);
-        cache[cache.length - 1] = newCacheElement;
+        cache[cache.length - 1] = cacheElement;
     }
 
     public void delete(T element) {
@@ -39,8 +39,8 @@ public class Cache<T> {
     }
 
     public boolean isPresent(T element) {
-        for (CacheElement<T> CacheElement : cache) {
-            if (CacheElement != null && CacheElement.getElement().equals(element)) {
+        for (CacheElement<T> cacheElement : cache) {
+            if (cacheElement != null && cacheElement.getElement().equals(element)) {
                 return true;
             }
         }
@@ -48,8 +48,8 @@ public class Cache<T> {
     }
 
     public boolean isPresent(int index) {
-        for (CacheElement<T> CacheElement : cache) {
-            if (CacheElement != null && CacheElement.getIndex() == index) {
+        for (CacheElement<T> cacheElement : cache) {
+            if (cacheElement != null && cacheElement.getIndex() == index) {
                 return true;
             }
         }
@@ -57,7 +57,6 @@ public class Cache<T> {
     }
 
     public CacheElement<T> get(int index) {
-        CacheElement<T> tempElement;
         int lastIndex = cache.length;
         for (int i = cache.length - 1; i >= 0; i--) {
             if (cache[i] == null) {

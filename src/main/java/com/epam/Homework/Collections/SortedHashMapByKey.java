@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class SortedHashMapByKey {
-    public void sort(Map<Integer, String> map) {
-        System.out.println(new TreeMap<>(map));
+    public Map<Integer, String> sort(Map<Integer, String> map) {
+        return new TreeMap<>(map);
     }
 }

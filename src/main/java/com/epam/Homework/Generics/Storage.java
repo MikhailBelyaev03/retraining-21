@@ -64,10 +64,11 @@ public class Storage<T> {
     public T get(int index) {
         if (cache.isPresent(index)) {
             return cache.get(index).getElement();
-        } else {
-            cache.add(storage[index], index);
-            return storage[index];
         }
+
+        cache.add(storage[index], index);
+        return storage[index];
+
     }
 
     public void clear() {

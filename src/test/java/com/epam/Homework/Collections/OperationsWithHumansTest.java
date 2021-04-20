@@ -1,11 +1,7 @@
 package com.epam.Homework.Collections;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,34 +11,20 @@ import static org.junit.Assert.assertEquals;
 
 public class OperationsWithHumansTest {
 
-    private final PrintStream standardOut = System.out;
-
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-
-    @Before
-    public void setUp() {
-        System.setOut(new PrintStream(outputStreamCaptor));
-    }
-
-    @After
-    public void tearDown() {
-        System.setOut(standardOut);
-    }
-
     @Test
-    public void findDuplicatesTest() {
+    public void findDuplicatesWhenThereAreDuplicatesInListReturnListOfDoubles() {
+        List<Human> expectedListOfHumans = new ArrayList<>();
+        expectedListOfHumans.add(new Human("Vasya", 14, new Address("Moscow", "Lad", "1a", 154)));
         List<Human> actualListOfHumans = new ArrayList<>();
         actualListOfHumans.add(new Human("Vasya", 14, new Address("Moscow", "Lad", "1a", 154)));
         actualListOfHumans.add(new Human("Vera", 15, new Address("Moscow", "Lad", "1a", 154)));
         actualListOfHumans.add(new Human("Vasya", 14, new Address("Moscow", "Lad", "1a", 154)));
-        OperationsWithHumans.findDuplicates(actualListOfHumans);
-        assertEquals("Find duplicates of Human - \n" +
-                "Human{FullName='Vasya', age=14, address=Address{city='Moscow', street='Lad', house='1a', apartment=154}}", outputStreamCaptor.toString()
-                .trim());
+        actualListOfHumans = OperationsWithHumans.findDuplicates(actualListOfHumans);
+        assertEquals(expectedListOfHumans, actualListOfHumans);
     }
 
     @Test
-    public void getDuplicateListTest() {
+    public void getDuplicatesListReturnListOfHumanWithCountOfPresented() {
         Map<Human, Integer> expectedDuplicatesOfHuman = new HashMap<>();
         expectedDuplicatesOfHuman.put(new Human("Vasya", 14, new Address("Moscow", "Lad", "1a", 154)), 2);
         expectedDuplicatesOfHuman.put(new Human("Vera", 15, new Address("Moscow", "Lad", "1a", 154)), 1);
@@ -54,7 +36,7 @@ public class OperationsWithHumansTest {
     }
 
     @Test
-    public void deleteDuplicatesTest() {
+    public void deleteDuplicatesTestWhenThereAreADuplicatesThenDeleteDuplicatesFromList() {
         List<Human> actualListOfHumans = new ArrayList<>();
         actualListOfHumans.add(new Human("Vasya", 14, new Address("Moscow", "Lad", "1a", 154)));
         actualListOfHumans.add(new Human("Vera", 15, new Address("Moscow", "Lad", "1a", 154)));

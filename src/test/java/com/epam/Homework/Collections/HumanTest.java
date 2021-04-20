@@ -14,35 +14,35 @@ public class HumanTest {
     Human human2;
 
     @Test
-    public void setFullNameTest() {
+    public void setFullNameWhenFullNAmeNotNull() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human1.setFullName("Misha");
         assertEquals("Misha", human1.getFullName());
     }
 
     @Test
-    public void setAgeTest() {
+    public void setAgeWhenAgeNotNull() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human1.setAge(15);
         assertEquals(15, human1.getAge());
     }
 
     @Test
-    public void setAdressTest() {
+    public void setAddressWhenAddresNotNull() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human1.setAddress(new Address("Moscow", "L2", "4d", 14));
         assertEquals(new Address("Moscow", "L2", "4d", 14), human1.getAddress());
     }
 
     @Test
-    public void equalsTest() {
+    public void equalsWhenAddressesAreEqualsThenReturnPositive() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human2 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         assertEquals(human1, human2);
     }
 
     @Test
-    public void dontEqualsTest() {
+    public void equalsWhenAddressesAreNotEqualsThenReturnNegative() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human2 = new Human("Vasya2", 10, new Address("Moscow", "L1", "4d", 14));
 
@@ -50,7 +50,7 @@ public class HumanTest {
     }
 
     @Test
-    public void hashCodeEqualsTest() {
+    public void hashCodeEquals() {
         human1 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         human2 = new Human("Vasya", 10, new Address("Moscow", "L1", "4d", 14));
         assertEquals(human1.hashCode(), human2.hashCode());
