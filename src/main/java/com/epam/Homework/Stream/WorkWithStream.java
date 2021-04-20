@@ -31,6 +31,7 @@ public class WorkWithStream {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     public static void main(String[] args) {
+
         List<String> arrayOfUIID = getListOfUUID();
 
         Path path = Optional.of(Paths.get(PATH_NAME)).orElse(Paths.get(System.getProperty("user.dir")));
@@ -74,7 +75,9 @@ public class WorkWithStream {
         ZoneId zoneId = ZoneId.of("America/Los_Angeles");
         String monthOfTheEndOfTheWorld = stringForDate.substring(0, 2);
         String yearOfTheEndOfTheWorld = stringForDate.substring(2, 4);
-        ZonedDateTime dateOfEnd = ZonedDateTime.of(LocalDateTime.now().plusMonths(Integer.parseInt(monthOfTheEndOfTheWorld)).plusDays(Integer.parseInt(yearOfTheEndOfTheWorld)), zoneId);
+        ZonedDateTime dateOfEnd = ZonedDateTime.of(LocalDateTime.now()
+                .plusMonths(Integer.parseInt(monthOfTheEndOfTheWorld))
+                .plusDays(Integer.parseInt(yearOfTheEndOfTheWorld)), zoneId);
         LOGGER.info(FORMATTER.format(dateOfEnd));
     }
 }
