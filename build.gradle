@@ -8,7 +8,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 
 repositories {
-    maven { url "https://repo1.maven.org/maven2"}
+    maven { url "https://repo1.maven.org/maven2" }
     mavenCentral()
 }
 
@@ -16,6 +16,9 @@ compileJava.options.encoding = 'UTF-8'
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
 }
 
 test {
@@ -39,3 +42,11 @@ jacocoTestCoverageVerification {
 jacocoTestReport {
     dependsOn test
 }
+
+jar {
+    baseName = 'gs-gradle'
+    version = '0.1.0'}
+
+
+
+
