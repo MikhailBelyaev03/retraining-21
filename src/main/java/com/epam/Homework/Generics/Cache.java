@@ -84,7 +84,7 @@ public class Cache<T> {
         Arrays.fill(cache, null);
     }
 
-    private <T> void shiftElements(int startWith, CacheElement<T>[] cache) {
+    private void shiftElements(int startWith, CacheElement<T>[] cache) {
 
         for (int i = startWith; i < cache.length; i++) {
             if (cache.length - 1 == i) break;
