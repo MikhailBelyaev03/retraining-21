@@ -7,6 +7,7 @@ group 'org.example'
 version '1.0-SNAPSHOT'
 apply plugin: 'java'
 
+
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
     mavenCentral()
@@ -27,14 +28,12 @@ dependencies {
 
 test {
     finalizedBy jacocoTestReport
-    jacoco {
-        excludes = [ "com.epam.Homework.Stream.*"]
-    }
 }
 
 check.dependsOn jacocoTestCoverageVerification
 
 jacocoTestCoverageVerification {
+
     violationRules {
         rule {
             limit {
@@ -44,15 +43,35 @@ jacocoTestCoverageVerification {
             }
         }
     }
+    afterEvaluate {
+        excludedClassFilesForReport(classDirectories)
+    }
+
 }
+
+private excludedClassFilesForReport(classDirectories) {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it,
+                exclude: [
+                        'com/epam/Homework/Stream/**',
+                        'com/epam/Homework/Geneics/**'
+                ]
+        )
+    }))
+}
+
 
 jacocoTestReport {
     dependsOn test
+    afterEvaluate {
+        excludedClassFilesForReport(classDirectories)
+    }
 }
 
 jar {
     baseName = 'gs-gradle'
-    version = '0.1.0'}
+    version = '0.1.0'
+}
 
 
 
