@@ -53,8 +53,7 @@ private excludedClassFilesForReport(classDirectories) {
     classDirectories.setFrom(files(classDirectories.files.collect {
         fileTree(dir: it,
                 exclude: [
-                        'com/epam/Homework/Stream/**',
-                        'com/epam/Homework/Geneics/**'
+                        'com/epam/Homework/Stream/**'
                 ]
         )
     }))
