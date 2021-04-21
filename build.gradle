@@ -21,6 +21,7 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
 
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 
 }
 
@@ -48,3 +49,11 @@ jacocoTestCoverageVerification {
 jacocoTestReport {
     dependsOn test
 }
+
+jar {
+    baseName = 'gs-gradle'
+    version = '0.1.0'}
+
+
+
+
